@@ -1,26 +1,30 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import esriLoader from 'esri-loader'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends Component {
+  componentDidMount() {
+    let options = {
+      url: 'https://js.arcgis.com/4.14/',
+      css: 'https://js.arcgis.com/4.14/esri/themes/light/main.css'
+    }
+    esriLoader
+      .loadModules(['esri/Map', 'esri/views/MapView'], options)
+      .then(([Map, Mapview]) => {
+        let map = new Map({
+          basemap: 'streets'
+        })
+
+        let view = new Mapview({
+          container: 'mapview', // Reference to the DOM node that will contain the view
+          map: map // References the map object created in step 3
+        })
+      })
+  }
+
+  render() {
+    return <div id="mapview"></div>
+  }
 }
 
-export default App;
+export default App
